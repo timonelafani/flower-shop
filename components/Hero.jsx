@@ -11,7 +11,7 @@ export default function Hero() {
     }, [])
 
     return (
-        <section className="relative bg-[#f4f3ef] py-24 px-6 overflow-hidden">
+        <section className="relative bg-[#f4f3ef] min-h-[70vh] py-32 px-6 overflow-hidden">
             {/* Parallax background image */}
             <div
                 className="absolute inset-0 bg-cover bg-center opacity-20"
