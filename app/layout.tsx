@@ -1,4 +1,8 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
+
+import Header from "@common/Header";
+import Footer from "@common/Footer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -6,14 +10,14 @@ export const metadata: Metadata = {
   description: "Fresh flowers for every occasion",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
