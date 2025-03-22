@@ -26,3 +26,22 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Global resets & font base */
+body {
+  @apply bg-[#f4f3ef] text-[#4a5a40] font-sans antialiased;
+}
+
+a {
+  @apply transition duration-300;
+}
+
+/* Optional utility class */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}

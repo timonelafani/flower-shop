@@ -1,5 +1,5 @@
-import ProductCard from "../sections/ProductCard";
-import { products } from "../../data/products";
+import ProductCard from "@sections/ProductCard";
+import { products } from "@data/products";
 
 export default function FeaturedProducts() {
   return (
