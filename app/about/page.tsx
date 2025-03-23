@@ -16,8 +16,8 @@ export default function AboutPage() {
         <h2 className="text-4xl font-bold mb-4">Welcome to Botanica Bazaar</h2>
         <p className="text-lg leading-relaxed mb-4">
           Your go-to destination for fresh, handpicked, and beautifully arranged
-          floral creations. Whether you're celebrating a special moment or just
-          brightening up your day, we’re here to deliver joy — petal by petal.
+          floral creations. Whether you are celebrating a special moment or just
+          brightening up your day, we are here to deliver joy — petal by petal.
         </p>
         <p className="text-lg leading-relaxed mb-4">
           Our story began with a deep-rooted passion for nature and a love for
