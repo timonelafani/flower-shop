@@ -20,6 +20,9 @@ export default function Header() {
           <Link href="/shop" className="text-[#4a5a40] hover:underline">
             Shop
           </Link>
+          <Link href="/about" className="text-[#4a5a40] hover:underline">
+            About
+          </Link>
           <Link href="/cart" className="relative text-[#4a5a40]">
             🛒
             {totalItems > 0 && (
