@@ -16,12 +16,12 @@ export default function Header() {
           </span>
         </div>
         <nav>
-          <a
+          <Link
             href="/shop"
             className="text-[#4a5a40] hover:text-[#586845] transition font-medium"
           >
             Shop
-          </a>
+          </Link>
         </nav>
       </div>
     </header>
