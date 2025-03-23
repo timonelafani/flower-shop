@@ -10,7 +10,7 @@ export default function Testimonials() {
             &ldquo;The bouquet was even more beautiful than expected!&rdquo;
           </blockquote>
           <blockquote className="text-[#5f6b50] italic">
-            "&ldquo;Fast delivery and stunning flowers. 10/10!&ldquo;
+            &ldquo;Fast delivery and stunning flowers. 10/10!&ldquo;
           </blockquote>
         </div>
       </div>
