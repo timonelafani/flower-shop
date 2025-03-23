@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+
 import { useCartStore } from "@lib/store/cart";
+import { BRAND_NAME } from "@lib/constants";
 
 export default function Header() {
   const items = useCartStore((state) => state.items);
@@ -11,7 +13,7 @@ export default function Header() {
     <header className="w-full px-6 py-4 shadow bg-white sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         <Link href="/" className="text-2xl font-bold text-[#4a5a40]">
-          Botanica Bazaar
+          {BRAND_NAME}
         </Link>
 
         <nav className="flex items-center gap-6">
