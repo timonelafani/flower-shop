@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+
 import { BRAND_NAME, COLORS } from "@lib/constants";
 
 export default function Header() {
@@ -7,11 +9,7 @@ export default function Header() {
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         <div className="flex items-center gap-2">
           <Link href="/">
-            <img
-              src="/logo.jpg"
-              alt={BRAND_NAME}
-              className="h-10 w-10 object-contain"
-            />
+            <Image src="/logo.png" alt="..." width={40} height={40} />
           </Link>
           <span className={`text-xl font-bold text-[${COLORS.primary}]`}>
             {BRAND_NAME}
