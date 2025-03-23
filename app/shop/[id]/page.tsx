@@ -15,6 +15,13 @@ export default function ProductDetailsPage() {
   const addToCart = useCartStore((state) => state.addToCart);
   const [showToast, setShowToast] = useState(false);
 
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => setShowToast(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
+
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -27,13 +34,6 @@ export default function ProductDetailsPage() {
     addToCart(product);
     setShowToast(true);
   };
-
-  useEffect(() => {
-    if (showToast) {
-      const timer = setTimeout(() => setShowToast(false), 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [showToast]);
 
   return (
     <section className="min-h-screen px-6 py-20 bg-white">
