@@ -20,8 +20,8 @@ export default function ShopPage() {
   }, [visibleItems.length]);
 
   useEffect(() => {
-    const el = loadMoreRef.current;
-    if (!el || !hasMore) return;
+    const currentEl = loadMoreRef.current;
+    if (!currentEl || !hasMore) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -33,12 +33,12 @@ export default function ShopPage() {
       { threshold: 0.5 }
     );
 
-    observer.observe(el);
+    observer.observe(currentEl);
 
     return () => {
-      if (el) observer.unobserve(el);
+      observer.unobserve(currentEl);
     };
-  }, [hasMore, visibleItems.length]);
+  }, [hasMore, visibleItems.length, loadMoreRef]);
 
   const filteredItems = products
     .filter((product) =>

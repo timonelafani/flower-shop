@@ -9,7 +9,7 @@ export default function Header() {
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         <div className="flex items-center gap-2">
           <Link href="/">
-            <Image src="/logo.png" alt="..." width={40} height={40} />
+            <Image src="/logo.JPG" alt="..." width={40} height={40} />
           </Link>
           <span className={`text-xl font-bold text-[${COLORS.primary}]`}>
             {BRAND_NAME}
