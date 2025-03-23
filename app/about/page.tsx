@@ -22,7 +22,7 @@ export default function AboutPage() {
         <p className="text-lg leading-relaxed mb-4">
           Our story began with a deep-rooted passion for nature and a love for
           design. At Botanica Bazaar, we believe every bouquet tells a story —
-          and we’re here to help you share it.
+          and we are here to help you share it.
         </p>
         <p className="text-lg leading-relaxed">
           Thank you for supporting small local artistry and letting us be a part
