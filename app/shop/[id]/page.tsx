@@ -13,7 +13,6 @@ export default function ProductDetailsPage() {
   const id = Number(params?.id);
   const product = products.find((p) => p.id === id);
   const addToCart = useCartStore((state) => state.addToCart);
-  const decreaseQuantity = useCartStore((state) => state.decreaseQuantity);
   const [showToast, setShowToast] = useState(false);
 
   if (!product) {
