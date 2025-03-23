@@ -1,10 +1,6 @@
 // products.ts
-export interface Product {
-  id: number;
-  name: string;
-  price: string;
-  image: string;
-}
+
+import { Product } from "@lib/types";
 
 export const products: Product[] = [
   {

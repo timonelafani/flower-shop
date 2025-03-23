@@ -4,11 +4,17 @@ import { useParams } from "next/navigation";
 import { products } from "@data/products";
 import Image from "next/image";
 import Link from "next/link";
+import { useCartStore } from "@lib/store/cart";
+import { useState, useEffect } from "react";
+import ToastProductCard from "@components/common/ToastProductCard";
 
 export default function ProductDetailsPage() {
   const params = useParams();
   const id = Number(params?.id);
   const product = products.find((p) => p.id === id);
+  const addToCart = useCartStore((state) => state.addToCart);
+  const decreaseQuantity = useCartStore((state) => state.decreaseQuantity);
+  const [showToast, setShowToast] = useState(false);
 
   if (!product) {
     return (
@@ -17,6 +23,18 @@ export default function ProductDetailsPage() {
       </div>
     );
   }
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    setShowToast(true);
+  };
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => setShowToast(false), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
 
   return (
     <section className="min-h-screen px-6 py-20 bg-white">
@@ -45,11 +63,16 @@ export default function ProductDetailsPage() {
               This bouquet is perfect for celebrations, gifts, or simply
               brightening up your day. Lovingly arranged and delivered fresh.
             </p>
-            <button className="bg-[#6a7752] text-white px-6 py-3 rounded hover:bg-[#586845] transition">
+            <button
+              onClick={handleAddToCart}
+              className="bg-[#6a7752] text-white px-6 py-3 rounded hover:bg-[#586845] transition"
+            >
               Add to Cart
             </button>
           </div>
         </div>
+
+        {showToast && <ToastProductCard product={product} />}
       </div>
     </section>
   );

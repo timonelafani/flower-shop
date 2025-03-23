@@ -1,26 +1,30 @@
-import Link from "next/link";
-import Image from "next/image";
+"use client";
 
-import { BRAND_NAME, COLORS } from "@lib/constants";
+import Link from "next/link";
+import { useCartStore } from "@lib/store/cart";
 
 export default function Header() {
+  const items = useCartStore((state) => state.items);
+  const totalItems = items.reduce((acc, item) => acc + item.quantity, 0);
+
   return (
-    <header className="bg-white shadow-md py-4 px-6 sticky top-0 z-50">
+    <header className="w-full px-6 py-4 shadow bg-white sticky top-0 z-50">
       <div className="max-w-6xl mx-auto flex justify-between items-center">
-        <div className="flex items-center gap-2">
-          <Link href="/">
-            <Image src="/logo.JPG" alt="..." width={40} height={40} />
-          </Link>
-          <span className={`text-xl font-bold text-[${COLORS.primary}]`}>
-            {BRAND_NAME}
-          </span>
-        </div>
-        <nav>
-          <Link
-            href="/shop"
-            className="text-[#4a5a40] hover:text-[#586845] transition font-medium"
-          >
+        <Link href="/" className="text-2xl font-bold text-[#4a5a40]">
+          Botanica Bazaar
+        </Link>
+
+        <nav className="flex items-center gap-6">
+          <Link href="/shop" className="text-[#4a5a40] hover:underline">
             Shop
+          </Link>
+          <Link href="/cart" className="relative text-[#4a5a40]">
+            🛒
+            {totalItems > 0 && (
+              <span className="absolute -top-2 -right-2 bg-[#4a5a40] text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                {totalItems}
+              </span>
+            )}
           </Link>
         </nav>
       </div>

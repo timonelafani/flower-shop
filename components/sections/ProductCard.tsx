@@ -1,6 +1,9 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
-import { Product } from "@data/products";
+import Image from "next/image";
+import { Product } from "@lib/types";
+
 interface Props {
   product: Product;
 }
@@ -8,20 +11,19 @@ interface Props {
 export default function ProductCard({ product }: Props) {
   return (
     <Link href={`/shop/${product.id}`} className="block group">
-      <div className="bg-[#f4f3ef] p-6 rounded-xl shadow hover:scale-105 transition">
+      <div className="overflow-hidden rounded-lg shadow hover:shadow-lg transition">
         <Image
           src={product.image}
           alt={product.name}
-          width={300}
-          height={300}
-          className="rounded"
+          width={400}
+          height={400}
+          className="w-full h-auto object-cover group-hover:scale-105 transition-transform"
         />
-        <h3 className="text-xl font-semibold text-[#4a5a40]">{product.name}</h3>
-        <p className="text-[#5f6b50]">{product.price}</p>
-        <button className="mt-4 bg-[#6a7752] text-white px-4 py-2 rounded hover:bg-[#586845]">
-          Add to Cart
-        </button>
       </div>
+      <h3 className="mt-4 text-xl font-semibold text-[#4a5a40]">
+        {product.name}
+      </h3>
+      <p className="text-[#5f6b50]">{product.price}</p>
     </Link>
   );
 }
