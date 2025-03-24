@@ -1,67 +1,79 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getProducts } from "@lib/firebase/products";
+import { getProducts, deleteProduct } from "@lib/firebase/products";
 import Link from "next/link";
-import AdminHeader from "@components/admin/AdminHeader";
-import AdminOnly from "@components/admin/AdminOnly";
+import { Product } from "@lib/types";
+import Image from "next/image";
+import { Pencil, Trash2 } from "lucide-react";
 
-interface Product {
-  id: string;
-  name: string;
-  price: string;
-  image: string;
-}
-
-export default function AdminProductsPage() {
+export default function AdminPage() {
   const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchData() {
+    const fetchProducts = async () => {
       const data = await getProducts();
       setProducts(data);
-      setLoading(false);
-    }
-    fetchData();
+    };
+    fetchProducts();
   }, []);
 
-  return (
-    <AdminOnly>
-      <AdminHeader />
-      <section className="min-h-screen p-8 bg-white text-[#4a5a40]">
-        <div className="max-w-5xl mx-auto">
-          <header className="flex justify-between items-center mb-10">
-            <h1 className="text-3xl font-bold">Product Management</h1>
-            <Link
-              href="/admin/products/new"
-              className="bg-[#4a5a40] text-white px-4 py-2 rounded hover:bg-[#3a4a30]"
-            >
-              + Add Product
-            </Link>
-          </header>
+  const handleDelete = async (id: string) => {
+    await deleteProduct(id);
+    setProducts((prev) => prev.filter((p) => p.id !== id));
+  };
 
-          {loading ? (
-            <p className="text-gray-500">Loading products...</p>
-          ) : products.length === 0 ? (
-            <p className="text-gray-500">No products found.</p>
-          ) : (
-            <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {products.map((product) => (
-                <li key={product.id} className="border rounded p-4 shadow-sm">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-40 object-cover mb-2 rounded"
-                  />
-                  <h2 className="font-semibold text-lg">{product.name}</h2>
-                  <p className="text-sm text-gray-600">${product.price}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </section>
-    </AdminOnly>
+  return (
+    <div className="max-w-6xl mx-auto px-6 py-12">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold text-[#4a5a40]">Manage Products</h1>
+        <Link
+          href="/admin/products/new"
+          className="bg-[#4a5a40] text-white px-4 py-2 rounded hover:bg-[#3a4a30]"
+        >
+          + Add New
+        </Link>
+      </div>
+
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
+        {products.map((product) => (
+          <div
+            key={product.id}
+            className="border rounded shadow-sm overflow-hidden bg-white flex flex-col"
+          >
+            <div className="relative w-full h-48">
+              <Image
+                src={product.image}
+                alt={product.name}
+                fill
+                className="object-cover"
+              />
+            </div>
+            <div className="p-4 flex-1 flex flex-col justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-[#4a5a40] mb-1">
+                  {product.name}
+                </h3>
+                <p className="text-sm text-gray-600 mb-4">${product.price}</p>
+              </div>
+              <div className="flex justify-end gap-4">
+                <Link
+                  href={`/admin/products/edit/${product.id}`}
+                  className="text-blue-600 hover:text-blue-800"
+                >
+                  <Pencil className="w-5 h-5" />
+                </Link>
+                <button
+                  onClick={() => handleDelete(product.id)}
+                  className="text-red-600 hover:text-red-800"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
