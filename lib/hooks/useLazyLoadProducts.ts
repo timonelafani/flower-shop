@@ -1,33 +1,47 @@
 import { useState, useEffect, useRef } from "react";
+import { getProductsPaginated } from "@lib/firebase/products";
+import { Product } from "@lib/types";
 
-export function useLazyLoad<T>(items: T[], batchSize: number = 6) {
-  const [visibleCount, setVisibleCount] = useState(batchSize);
-  const loadMoreRef = useRef<HTMLDivElement | null>(null);
+export default function useLazyLoadProducts(limit = 6) {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const observerRef = useRef<HTMLDivElement | null>(null);
+  const lastDocRef = useRef<any>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting) {
-          setVisibleCount((prev) => Math.min(prev + batchSize, items.length));
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          loadMore();
         }
       },
       { threshold: 1.0 }
     );
-
-    if (loadMoreRef.current) {
-      observer.observe(loadMoreRef.current);
-    }
-
+    const currentRef = observerRef.current;
+    if (currentRef) observer.observe(currentRef);
     return () => {
-      if (loadMoreRef.current) {
-        observer.unobserve(loadMoreRef.current);
-      }
+      if (currentRef) observer.unobserve(currentRef);
     };
-  }, [items.length, batchSize]);
+  }, [hasMore, loading]);
 
-  return {
-    visibleItems: items.slice(0, visibleCount),
-    hasMore: visibleCount < items.length,
-    loadMoreRef,
+  const loadMore = async () => {
+    setLoading(true);
+    const { data, lastDoc } = await getProductsPaginated(
+      limit,
+      lastDocRef.current
+    );
+    setProducts((prev) => [...prev, ...data]);
+    lastDocRef.current = lastDoc;
+    if (!lastDoc || data.length < limit) setHasMore(false);
+    setLoading(false);
   };
+
+  const clearProducts = () => {
+    setProducts([]);
+    lastDocRef.current = null;
+    setHasMore(true);
+  };
+
+  return { products, loading, hasMore, observerRef, clearProducts };
 }

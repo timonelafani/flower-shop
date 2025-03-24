@@ -6,6 +6,10 @@ import {
   getDoc,
   updateDoc,
   deleteDoc,
+  query,
+  orderBy,
+  limit as limitFn,
+  startAfter,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { Product } from "@lib/types";
@@ -36,4 +40,22 @@ export async function updateProduct(id: string, updated: Partial<Product>) {
 export async function deleteProduct(id: string) {
   const ref = doc(db, "products", id);
   await deleteDoc(ref);
+}
+
+export async function getProductsPaginated(limit: number, lastDoc: any) {
+  let q = query(productsRef, orderBy("name"), limitFn(limit));
+  if (lastDoc) {
+    q = query(
+      productsRef,
+      orderBy("name"),
+      startAfter(lastDoc),
+      limitFn(limit)
+    );
+  }
+  const snapshot = await getDocs(q);
+  const data = snapshot.docs.map(
+    (doc) => ({ id: doc.id, ...doc.data() } as Product)
+  );
+  const lastVisible = snapshot.docs[snapshot.docs.length - 1];
+  return { data, lastDoc: lastVisible };
 }

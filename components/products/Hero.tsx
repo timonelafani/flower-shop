@@ -23,7 +23,7 @@ export default function Hero() {
         }}
       ></div>
 
-      <div className="max-w-5xl mx-auto mt-12 text-center z-10 relative">
+      <div className="max-w-5xl mx-auto mt-32 text-center z-10 relative">
         <h1 className="text-5xl md:text-6xl font-bold text-[#4a5a40] leading-tight">
           Fresh Flowers Delivered with Love
         </h1>

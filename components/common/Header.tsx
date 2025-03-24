@@ -12,7 +12,7 @@ export default function Header() {
   const total = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <header className="flex justify-between items-center px-6 py-4 bg-white border-b shadow-sm">
+    <header className="flex justify-between items-center px-6 py-4 bg-white border-b shadow-sm fixed top-0 left-0 w-full z-50 bg-white shadow">
       <Link href="/" className="text-2xl font-bold text-[#4a5a40]">
         {BRAND_NAME}
       </Link>
