@@ -21,6 +21,7 @@ export default function AdminLoginPage() {
       router.push("/admin/products");
     } catch (err) {
       setError("Invalid email or password");
+      return err;
     } finally {
       setLoading(false);
     }
