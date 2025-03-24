@@ -1,30 +1,38 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
-import ProductCard from "@sections/ProductCard";
-import { products } from "@data/products";
+import { getProducts } from "@lib/firebase/products";
+import ProductCard from "@components/sections/ProductCard";
+import { Product } from "@lib/types";
 
 export default function FeaturedProducts() {
-  const featured = products.slice(0, 3);
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    async function fetchFeatured() {
+      const all = await getProducts();
+      const topThree = all.slice(0, 3);
+      setProducts(topThree);
+    }
+    fetchFeatured();
+  }, []);
+
+  if (!products.length) return null;
 
   return (
-    <section id="shop" className="py-20 px-6 bg-white">
-      <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-4xl font-bold text-[#4a5a40] mb-4">
-          Featured Bouquets
-        </h2>
-        <p className="text-[#5f6b50] mb-12">
-          Lovingly arranged, freshly picked.
-        </p>
-        <div className="grid gap-10 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-8">
-          {featured.map((item) => (
-            <ProductCard key={item.id} product={item} />
-          ))}
-        </div>
-        <Link href="/shop">
-          <span className="inline-block bg-[#6a7752] text-white px-6 py-2 rounded-full shadow hover:bg-[#586845] transition-all">
-            View All Bouquets
-          </span>
+    <section className="px-6 py-12 max-w-6xl mx-auto text-[#4a5a40]">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-3xl font-bold">Featured Bouquets</h2>
+        <Link href="/shop" className="text-sm underline hover:text-[#3a4a30]">
+          View all
         </Link>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
       </div>
     </section>
   );

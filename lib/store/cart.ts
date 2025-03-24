@@ -9,14 +9,16 @@ interface CartItem extends Product {
 interface CartState {
   items: CartItem[];
   addToCart: (product: Product) => void;
-  removeFromCart: (id: number) => void;
+  removeFromCart: (id: string) => void;
   clearCart: () => void;
-  decreaseQuantity: (id: number) => void;
+  decreaseQuantity: (id: string) => void;
 }
 
 export const useCartStore = create<CartState>((set, get) => ({
   items: [],
   addToCart: (product) => {
+    console.log("Adding to cart:", product);
+
     const existingItem = get().items.find((item) => item.id === product.id);
     if (existingItem) {
       set({
@@ -30,11 +32,11 @@ export const useCartStore = create<CartState>((set, get) => ({
       set({ items: [...get().items, { ...product, quantity: 1 }] });
     }
   },
-  removeFromCart: (id) => {
+  removeFromCart: (id: string) => {
     set({ items: get().items.filter((item) => item.id !== id) });
   },
   clearCart: () => set({ items: [] }),
-  decreaseQuantity: (id: number) => {
+  decreaseQuantity: (id: string) => {
     const existing = get().items.find((item) => item.id === id);
     if (existing && existing.quantity > 1) {
       set({

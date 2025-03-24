@@ -12,13 +12,16 @@ export default function NewProductPage() {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
+  const [description, setDescription] = useState(
+    "This bouquet is perfect for celebrations, gifts, or simply brightening up your day. Lovingly arranged and delivered fresh."
+  );
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await addProduct({ name, price, image });
+      await addProduct({ name, price, image, description });
       router.push("/admin/products");
     } catch (err) {
       console.error("Failed to add product:", err);
@@ -62,6 +65,12 @@ export default function NewProductPage() {
                   required
                 />
               </div>
+              <textarea
+                placeholder="Description"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                className="w-full border p-2 rounded h-32"
+              />
               <button
                 type="submit"
                 disabled={loading}

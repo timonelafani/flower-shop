@@ -1,33 +1,39 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Product } from "@lib/types";
 
-interface ToastProductCardProps {
+interface ToastProps {
   product: Product;
 }
 
-export default function ToastProductCard({ product }: ToastProductCardProps) {
+export default function ToastProductCard({ product }: ToastProps) {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVisible(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  });
+
+  if (!visible) return null;
+
   return (
-    <div className="fixed bottom-6 right-6 bg-white border border-[#4a5a40] shadow-lg px-6 py-4 rounded-lg z-50 flex items-center gap-4 animate-fade-in">
-      <Image
-        src={product.image}
-        alt={product.name}
-        width={50}
-        height={50}
-        className="rounded shadow"
-      />
-      <div className="text-[#4a5a40]">
-        <p className="font-semibold">{product.name}</p>
-        <p className="text-sm">added to cart</p>
+    <div className="fixed bottom-6 right-6 z-50 bg-white border rounded-lg shadow-lg flex items-center gap-4 p-4 w-72 animate-slide-in">
+      <div className="relative w-16 h-16">
+        <Image
+          src={product.image}
+          alt={product.name}
+          fill
+          className="object-cover rounded"
+        />
       </div>
-      <Link
-        href="/cart"
-        className="ml-auto text-sm underline text-[#4a5a40] hover:text-[#2f382a]"
-      >
-        View Cart
-      </Link>
+      <div>
+        <p className="text-sm text-[#4a5a40] font-semibold">Added to cart:</p>
+        <p className="text-sm">{product.name}</p>
+      </div>
     </div>
   );
 }
