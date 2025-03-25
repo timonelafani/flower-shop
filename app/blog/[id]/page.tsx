@@ -1,8 +1,14 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+export async function generateStaticParams() {
+  return [
+    { id: "flower-care" },
+    { id: "flower-meanings" },
+    { id: "seasonal-flowers" },
+  ];
+}
 
 const blogPosts: Record<
   string,
@@ -28,13 +34,7 @@ const blogPosts: Record<
   },
 };
 
-interface BlogPageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default function BlogPostPage({ params }: BlogPageProps) {
+export default function BlogPostPage({ params }: { params: { id: string } }) {
   const post = blogPosts[params.id];
 
   if (!post) return notFound();
