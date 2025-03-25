@@ -2,14 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export async function generateStaticParams() {
-  return [
-    { id: "flower-care" },
-    { id: "flower-meanings" },
-    { id: "seasonal-flowers" },
-  ];
-}
-
 const blogPosts: Record<
   string,
   { title: string; content: string; image: string }
@@ -34,7 +26,15 @@ const blogPosts: Record<
   },
 };
 
-export default function BlogPostPage({ params }: { params: { id: string } }) {
+export async function generateStaticParams() {
+  return Object.keys(blogPosts).map((id) => ({ id }));
+}
+
+interface BlogPostPageProps {
+  params: { id: string };
+}
+
+export default function BlogPostPage({ params }: BlogPostPageProps) {
   const post = blogPosts[params.id];
 
   if (!post) return notFound();
