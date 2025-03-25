@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { addProduct } from "@lib/firebase/products";
 import AdminOnly from "@components/admin/AdminOnly";
 import AdminHeader from "@components/admin/AdminHeader";
+import Link from "next/link";
 
 export default function NewProductPage() {
   const router = useRouter();
@@ -64,6 +65,16 @@ export default function NewProductPage() {
                   className="w-full border px-3 py-2 rounded"
                   required
                 />
+                <div className="mt-3">
+                  NOTE: You can get your pictures from
+                  <Link
+                    href="https://www.pexels.com/search/flower%20bouquet/?orientation=landscape"
+                    target="_blank"
+                    className="text-[#4a5a40] font-medium hover:underline ml-2"
+                  >
+                    Pexels →
+                  </Link>
+                </div>
               </div>
               <textarea
                 placeholder="Description"
