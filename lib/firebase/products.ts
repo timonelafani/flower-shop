@@ -10,6 +10,8 @@ import {
   orderBy,
   limit as limitFn,
   startAfter,
+  QueryDocumentSnapshot,
+  DocumentData,
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { Product } from "@lib/types";
@@ -42,7 +44,10 @@ export async function deleteProduct(id: string) {
   await deleteDoc(ref);
 }
 
-export async function getProductsPaginated(limit: number, lastDoc: any) {
+export async function getProductsPaginated(
+  limit: number,
+  lastDoc: QueryDocumentSnapshot<DocumentData> | null
+) {
   let q = query(productsRef, orderBy("name"), limitFn(limit));
   if (lastDoc) {
     q = query(

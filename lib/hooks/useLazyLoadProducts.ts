@@ -1,13 +1,14 @@
 import { useState, useEffect, useRef } from "react";
 import { getProductsPaginated } from "@lib/firebase/products";
 import { Product } from "@lib/types";
+import { DocumentData, QueryDocumentSnapshot } from "firebase/firestore";
 
 export default function useLazyLoadProducts(limit = 6) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const observerRef = useRef<HTMLDivElement | null>(null);
-  const lastDocRef = useRef<any>(null);
+  const lastDocRef = useRef<QueryDocumentSnapshot<DocumentData> | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

@@ -17,7 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <AuthProvider>
           <Header />
-          {children}
+          <div className="mt-12">{children}</div>
           <Footer />
         </AuthProvider>
       </body>
