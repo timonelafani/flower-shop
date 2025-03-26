@@ -23,15 +23,9 @@ const blogPosts = {
   },
 };
 
-export async function generateStaticParams() {
-  return Object.keys(blogPosts).map((id) => ({ id }));
-}
+export type paramsType = Promise<{ id: string }>;
 
-export default function BlogPostPage({
-  params,
-}: {
-  params: { id: keyof typeof blogPosts };
-}) {
+export default function BlogPostPage(props: { params: paramsType }) {
   const post = blogPosts[params.id];
 
   if (!post) return notFound();
