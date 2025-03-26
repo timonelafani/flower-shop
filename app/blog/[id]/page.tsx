@@ -31,7 +31,9 @@ export async function generateStaticParams() {
 }
 
 interface BlogPostPageProps {
-  params: { id: "flower-care" | "flower-meanings" | "seasonal-flowers" };
+  params: {
+    id: string;
+  };
 }
 
 export default function BlogPostPage({ params }: BlogPostPageProps) {
