@@ -30,13 +30,7 @@ export async function generateStaticParams() {
   return Object.keys(blogPosts).map((id) => ({ id }));
 }
 
-interface BlogPostPageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default function BlogPostPage({ params }: BlogPostPageProps) {
+export default function BlogPostPage({ params }: { params: { id: string } }) {
   const post = blogPosts[params.id];
 
   if (!post) return notFound();
