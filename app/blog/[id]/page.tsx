@@ -24,28 +24,20 @@ const blogPosts = {
   },
 };
 
-type BlogId = keyof typeof blogPosts;
-
-interface BlogPostPageProps {
-  params: {
-    id: BlogId;
-  };
-}
-
 export async function generateStaticParams() {
   return Object.keys(blogPosts).map((id) => ({ id }));
 }
 
-export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const post = blogPosts[params.id];
+export async function generateMetadata({ params }: { params: Record<string, string> }): Promise<Metadata> {
+  const post = blogPosts[params.id as keyof typeof blogPosts];
   return {
     title: post?.title ?? "Blog Post",
     description: post?.content.slice(0, 150),
   };
 }
 
-export default function BlogPostPage({ params }: BlogPostPageProps) {
-  const post = blogPosts[params.id];
+export default function BlogPostPage({ params }: { params: Record<string, string> }) {
+  const post = blogPosts[params.id as keyof typeof blogPosts];
 
   if (!post) return notFound();
 
