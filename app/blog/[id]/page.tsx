@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
 const blogPosts = {
   "flower-care": {
@@ -23,9 +24,27 @@ const blogPosts = {
   },
 };
 
-export type paramsType = Promise<{ id: string }>;
+type BlogId = keyof typeof blogPosts;
 
-export default function BlogPostPage(props: { params: paramsType }) {
+interface BlogPostPageProps {
+  params: {
+    id: BlogId;
+  };
+}
+
+export async function generateStaticParams() {
+  return Object.keys(blogPosts).map((id) => ({ id }));
+}
+
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  const post = blogPosts[params.id];
+  return {
+    title: post?.title ?? "Blog Post",
+    description: post?.content.slice(0, 150),
+  };
+}
+
+export default function BlogPostPage({ params }: BlogPostPageProps) {
   const post = blogPosts[params.id];
 
   if (!post) return notFound();
