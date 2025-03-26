@@ -2,26 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-const blogPosts: Record<
-  string,
-  { title: string; content: string; image: string }
-> = {
+const blogPosts = {
   "flower-care": {
     title: "Top 5 Flower Care Tips",
     content:
-      "Learn how to keep your bouquets fresher for longer with these essential flower care techniques. From trimming stems to changing the water regularly, our guide walks you through the most effective practices for prolonging the life and beauty of your floral arrangements. Perfect for home florists and gift-givers alike.",
+      "To ensure your flowers last as long as possible, begin by trimming the stems at an angle under running water. This technique helps prevent air from entering the stem and allows for better water intake. Change the water in the vase every day and clean the vase thoroughly to eliminate bacterial buildup. Always remove wilted petals and leaves, especially those that fall below the waterline. Use flower food, often included with bouquets, to nourish the blooms. Keep the arrangement away from direct sunlight, heating vents, and fruit, as these can shorten the flowers' lifespan. Caring for flowers can become a relaxing routine that brings joy to your home environment and helps you appreciate nature's fleeting beauty. Whether you're decorating for an event or just brightening up your living space, fresh flowers can dramatically improve your mood and ambiance.",
     image: "/flowers/flower1.jpg",
   },
   "flower-meanings": {
     title: "The Secret Meaning of Popular Flowers",
     content:
-      "From roses to tulips, explore what each bloom symbolizes and how to choose the right one. Whether you're sending a bouquet to a friend, a loved one, or even as a corporate gesture, understanding flower meanings helps you make the perfect floral statement with intention and emotion.",
+      "Flowers have long been associated with emotions and sentiments. Red roses traditionally symbolize love and romance, while white roses stand for purity and new beginnings. Tulips, depending on their color, can represent deep affection (red), cheerfulness (yellow), or forgiveness (white). Lilies often denote purity and transience, making them popular in both weddings and funerals. Sunflowers represent happiness and positivity, echoing the bright nature of the sun. By learning these symbolic meanings, you can craft floral arrangements that convey deeper emotional resonance. This thoughtful gesture adds another layer of connection to your gifts and decor. It's a beautiful, subtle way to express feelings that words sometimes can't fully capture.",
     image: "/flowers/flower7.jpg",
   },
   "seasonal-flowers": {
     title: "Seasonal Flower Guide",
     content:
-      "A breakdown of what flowers are in season and how to style them beautifully year-round. This guide helps you embrace nature’s rhythm, with tips on arranging flowers based on seasonality and availability. Create harmonious displays that reflect the time of year and stay budget-friendly.",
+      "Each season brings its own floral treasures. Spring offers tulips, daffodils, and hyacinths—bright and uplifting after a long winter. Summer is the time for showy blooms like peonies, zinnias, and sunflowers. Fall arrangements feature warm tones with chrysanthemums, marigolds, and dahlias. In winter, consider elegant amaryllis, poinsettias, and paperwhites. Using seasonal flowers ensures freshness and affordability, as these blooms are more readily available. Moreover, seasonal arrangements help ground your home in the natural world’s rhythm and cycles. They can also add seasonal scents that enhance the atmosphere—think the fresh scent of spring or the spice of winter greens. Decorating this way helps create a cozy, intentional living space.",
     image: "/flowers/flower18.jpg",
   },
 };
@@ -30,7 +27,11 @@ export async function generateStaticParams() {
   return Object.keys(blogPosts).map((id) => ({ id }));
 }
 
-export default function BlogPostPage({ params }: { params: { id: string } }) {
+export default function BlogPostPage({
+  params,
+}: {
+  params: { id: keyof typeof blogPosts };
+}) {
   const post = blogPosts[params.id];
 
   if (!post) return notFound();
