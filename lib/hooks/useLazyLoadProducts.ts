@@ -10,6 +10,18 @@ export default function useLazyLoadProducts(limit = 6) {
   const observerRef = useRef<HTMLDivElement | null>(null);
   const lastDocRef = useRef<QueryDocumentSnapshot<DocumentData> | null>(null);
 
+  const loadMore = async () => {
+    setLoading(true);
+    const { data, lastDoc } = await getProductsPaginated(
+      limit,
+      lastDocRef.current
+    );
+    setProducts((prev) => [...prev, ...data]);
+    lastDocRef.current = lastDoc;
+    if (!lastDoc || data.length < limit) setHasMore(false);
+    setLoading(false);
+  };
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -24,19 +36,7 @@ export default function useLazyLoadProducts(limit = 6) {
     return () => {
       if (currentRef) observer.unobserve(currentRef);
     };
-  }, [hasMore, loading]);
-
-  const loadMore = async () => {
-    setLoading(true);
-    const { data, lastDoc } = await getProductsPaginated(
-      limit,
-      lastDocRef.current
-    );
-    setProducts((prev) => [...prev, ...data]);
-    lastDocRef.current = lastDoc;
-    if (!lastDoc || data.length < limit) setHasMore(false);
-    setLoading(false);
-  };
+  }, [hasMore, loading, loadMore]);
 
   const clearProducts = () => {
     setProducts([]);
