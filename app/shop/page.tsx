@@ -12,7 +12,7 @@ export default function ShopPage() {
     return () => {
       clearProducts(); // clear when component unmounts
     };
-  }, []);
+  }, [clearProducts]);
 
   return (
     <section className="min-h-screen px-6 py-12 bg-white text-[#4a5a40]">
